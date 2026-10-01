@@ -2,8 +2,23 @@
 
 *[한국어로 보기 →](README.ko.md)*
 
+**▶ Gameplay video: https://youtu.be/sp2ACbRQ-O8**
+
 6-person team project — 3D action RPG with character-switching combat, climbing a tower floor by floor. Built during a Unity game-dev bootcamp (2025.07 ~ 2025.08).
 Unity · C# · PC, 3rd-person free-look.
+
+## Where to start reading
+
+| File | What to look at |
+|---|---|
+| [`Player/Parrying.cs`](Scripts/Player/Parrying.cs) | Parry check (`TryParry`), parry-mode presentation (grayscale post-processing + `timeScale` 0.3), then the strong-attack / character-swap branch |
+| [`Enemy/Enemy.cs`](Scripts/Enemy/Enemy.cs) | `Jigumini()` — an animation event on enemy attack motions that opens the parry window (`CanParry`). Groggy gauge and the 150% damage multiplier while groggy |
+| [`Player/StateMachine/DashState.cs`](Scripts/Player/StateMachine/DashState.cs) | Animator `StateMachineBehaviour` that triggers the parry check the moment the dash animation starts |
+| [`Player/TeamManager.cs`](Scripts/Player/TeamManager.cs) | 3-character switching; stores the party formation as offsets in the leader's local space and moves it |
+| [`Player/Character/Character.cs`](Scripts/Player/Character/Character.cs) | `IDamageable` implementation (defense formula); spawns the spirit form (`fairyForm`) when swapped out |
+| [`Enemy/StateMachine/EnemyHitState.cs`](Scripts/Enemy/StateMachine/EnemyHitState.cs) | Fix for enemies moving while being hit — disables `NavMeshAgent` during the hit state |
+
+To follow a parry end to end: `Enemy.Jigumini()` (window opens) → `DashState` (dodge input) → `Parrying.TryParry()` (check + presentation).
 
 ## About this repository
 
